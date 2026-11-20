@@ -1,6 +1,5 @@
-package com.example.productmanager.location.entity;
+package com.example.productmanager.location;
 
-import com.example.productmanager.common.enums.LocationStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

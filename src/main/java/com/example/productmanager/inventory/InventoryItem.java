@@ -1,6 +1,6 @@
-package com.example.productmanager.inventory.entity;
+package com.example.productmanager.inventory;
 
-import com.example.productmanager.product.entity.Variant;
+import com.example.productmanager.product.Variant;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.Getter;

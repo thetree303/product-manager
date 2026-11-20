@@ -1,4 +1,4 @@
-package com.example.productmanager.product.entity;
+package com.example.productmanager.product;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.PositiveOrZero;

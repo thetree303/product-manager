@@ -1,7 +1,6 @@
-package com.example.productmanager.inventory.entity;
+package com.example.productmanager.inventory;
 
-import com.example.productmanager.common.enums.InventoryAdjustmentReason;
-import com.example.productmanager.location.entity.Location;
+import com.example.productmanager.location.Location;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

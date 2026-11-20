@@ -1,4 +1,4 @@
-package com.example.productmanager.common.enums;
+package com.example.productmanager.inventory;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

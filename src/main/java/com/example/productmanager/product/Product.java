@@ -1,6 +1,5 @@
-package com.example.productmanager.product.entity;
+package com.example.productmanager.product;
 
-import com.example.productmanager.common.enums.ProductStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
