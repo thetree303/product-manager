@@ -1,7 +1,8 @@
 package com.example.productmanager.product;
 
+import com.example.productmanager.inventory.InventoryItem;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.DecimalMin;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,6 +33,10 @@ public class Variant {
     )
     private Product product;
 
+    // Anh xa 1-1 voi inventory item
+    @OneToOne(mappedBy = "variant")
+    private InventoryItem inventoryItem;
+
     @Column(name = "sku", nullable = false, unique = true, length = 50)
     private String sku;
 
@@ -42,7 +47,7 @@ public class Variant {
     private String description;
 
     @Column(name = "price", nullable = false, precision = 19, scale = 2)
-    @PositiveOrZero
+    @DecimalMin(value = "0.01", message = "Price must be greater than 0")
     private BigDecimal price;
 
     @Column(name = "created_at", nullable = false, updatable = false)

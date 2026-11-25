@@ -2,7 +2,7 @@ package com.example.productmanager.inventory;
 
 import com.example.productmanager.product.Variant;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.DecimalMin;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,7 +31,7 @@ public class InventoryItem {
     private boolean tracked = true;
 
     @Column(name = "cost_price", nullable = false, precision = 19, scale = 2)
-    @Min(0)
+    @DecimalMin(value = "0.01", message = "Cost Price must be greater than 0")
     private BigDecimal costPrice;
 
     @Column(name = "created_at", nullable = false, updatable = false)

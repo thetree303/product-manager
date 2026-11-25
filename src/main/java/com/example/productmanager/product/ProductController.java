@@ -1,7 +1,6 @@
 package com.example.productmanager.product;
 
 import com.example.productmanager.product.dto.CreateProductRequest;
-import com.example.productmanager.product.dto.DetailedProductResponse;
 import com.example.productmanager.product.dto.ProductResponse;
 import com.example.productmanager.product.dto.UpdateProductRequest;
 import jakarta.validation.Valid;
@@ -21,13 +20,13 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<Page<ProductResponse>> findAll(
-            @PageableDefault(size = 20, sort = "id") Pageable pageable
+            @PageableDefault(size = 10, sort = "id") Pageable pageable
     ) {
         return ResponseEntity.ok(productService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DetailedProductResponse> findById(
+    public ResponseEntity<ProductResponse> findById(
             @PathVariable Long id
     ) {
         return ResponseEntity.ok(productService.findById(id));

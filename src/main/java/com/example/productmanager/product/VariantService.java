@@ -2,6 +2,7 @@ package com.example.productmanager.product;
 
 import com.example.productmanager.common.exception.BusinessException;
 import com.example.productmanager.common.exception.ResourceNotFoundException;
+import com.example.productmanager.inventory.InventoryItemService;
 import com.example.productmanager.product.dto.CreateVariantRequest;
 import com.example.productmanager.product.dto.UpdateVariantRequest;
 import com.example.productmanager.product.dto.VariantResponse;
@@ -17,8 +18,10 @@ public class VariantService {
     private final VariantRepository variantRepository;
     private final ProductRepository productRepository;
 
+    private final InventoryItemService inventoryItemService;
+
     @Transactional
-    public VariantResponse create(Long productId, CreateVariantRequest req) {
+    public Variant create(Long productId, CreateVariantRequest req) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
@@ -40,11 +43,19 @@ public class VariantService {
         newVariant.setPrice(req.price());
         newVariant.setProduct(product);     // Gan variant voi product
 
-        // ===== Khoi tao inventory item, gan 1-1 di kem ======
-        // ===== Se bo sung them sau ======
-
+        // Luu variant truoc de lay ID
         Variant saved = variantRepository.save(newVariant);
-        return new VariantResponse(saved);
+
+        // ===== Khoi tao inventory item, gan 1-1 di kem ======
+        // Mac dinh = true neu khong co danh dau
+        boolean tracked = !Boolean.FALSE.equals(req.tracked());
+        inventoryItemService.create(
+                newVariant,
+                tracked,
+                req.costPrice()
+        );
+
+        return saved;
     }
 
     @Transactional(readOnly = true)

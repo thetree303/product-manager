@@ -1,5 +1,6 @@
 package com.example.productmanager.product.dto;
 
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -18,7 +19,15 @@ public record CreateVariantRequest(
         String description,
 
         @NotNull(message = "Price is not empty")
-        BigDecimal price
+        @DecimalMin(value = "0.01", message = "Price must be greater than 0")
+        BigDecimal price,
+
+        // Cac thuoc tinh cho inventory item
+        @NotNull(message = "Cost Price is not empty")
+        @DecimalMin(value = "0.01", message = "Cost Price must be greater than 0")
+        BigDecimal costPrice,
+
+        Boolean tracked
 ) {
 
 }

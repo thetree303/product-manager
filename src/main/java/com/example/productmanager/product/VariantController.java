@@ -40,8 +40,8 @@ public class VariantController {
             @PathVariable Long productId,
             @RequestBody @Valid CreateVariantRequest req
     ) {
-        VariantResponse res = variantService.create(productId, req);
-        return ResponseEntity.status(HttpStatus.CREATED).body(res);
+        Variant res = variantService.create(productId, req);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new VariantResponse(res));
     }
 
     @PatchMapping("/variants/{id}")
