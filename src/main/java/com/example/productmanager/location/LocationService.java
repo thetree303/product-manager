@@ -104,8 +104,8 @@ public class LocationService {
             location.setStatus(req.status());
         }
 
-        locationRepository.save(location);
-        return new LocationResponse(location);
+        Location saved = locationRepository.save(location);
+        return new LocationResponse(saved);
     }
 
     // Doi kho hang mac dinh
