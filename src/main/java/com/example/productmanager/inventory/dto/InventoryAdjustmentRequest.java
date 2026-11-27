@@ -1,5 +1,6 @@
 package com.example.productmanager.inventory.dto;
 
+import com.example.productmanager.common.validator.NotZero;
 import com.example.productmanager.inventory.InventoryAdjustmentReason;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +18,7 @@ public record InventoryAdjustmentRequest(
         String requestId,
 
         @NotNull(message = "Delta cannot be empty")
+        @NotZero(message = "Delta cannot be zero")
         Long delta,
 
         @NotNull(message = "Reason cannot be empty")

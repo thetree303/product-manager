@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Check;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Immutable;
 
@@ -25,6 +26,8 @@ import java.time.Instant;
                 ),
         }
 )
+// Bo sung rang buoc delta khac 0 cho database
+@Check(constraints = "delta <> 0")
 public class InventoryAdjustment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
