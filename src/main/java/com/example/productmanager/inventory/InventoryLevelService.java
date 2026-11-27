@@ -96,11 +96,21 @@ public class InventoryLevelService {
     // Se dieu chinh sau de phu hop voi nghiep vu thuc te
     @Transactional
     public InventoryLevel adjust(InventoryLevel inventoryLevel, Long delta) {
-        if (Math.addExact(inventoryLevel.getAvailable(), delta) < 0) {
-            throw new BusinessException("Insufficient items. Cannot export");
+        // Su dung ham addExact ket hop try/catch de bat loi tran so, khong dung toan tu + co ban
+        try {
+            Long newOnHand = inventoryLevel.getOnHand() + delta;
+            Long newAvailable = Math.addExact(inventoryLevel.getAvailable(), delta);
+
+            if (newAvailable < 0) {
+                throw new BusinessException("Insufficient items. Cannot export");
+            }
+
+            inventoryLevel.setOnHand(newOnHand);
+            inventoryLevel.setAvailable(newAvailable);
+
+            return inventoryLevelRepository.save(inventoryLevel);
+        } catch (ArithmeticException e) {
+            throw new BusinessException("Inventory level overflow. Cannot adjust");
         }
-        inventoryLevel.setOnHand(Math.addExact(inventoryLevel.getOnHand(), delta));
-        inventoryLevel.setAvailable(Math.addExact(inventoryLevel.getAvailable(), delta));
-        return inventoryLevelRepository.save(inventoryLevel);
     }
 }
