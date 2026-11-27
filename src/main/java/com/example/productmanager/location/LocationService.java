@@ -1,6 +1,7 @@
 package com.example.productmanager.location;
 
 import com.example.productmanager.common.exception.BusinessException;
+import com.example.productmanager.common.exception.DuplicateResourceException;
 import com.example.productmanager.common.exception.ResourceNotFoundException;
 import com.example.productmanager.location.dto.CreateLocationRequest;
 import com.example.productmanager.location.dto.LocationResponse;
@@ -21,7 +22,7 @@ public class LocationService {
     public LocationResponse create(CreateLocationRequest req) {
         // Kiem tra ma trung
         if (locationRepository.existsByCode(req.code()))
-            throw new BusinessException("Location code already exists");
+            throw new DuplicateResourceException("Location code already exists");
 
         // Neu la kho dau tien duoc them, hoac duoc danh dau la kho mac dinh trong req
         // Danh dau day la kho mac dinh
@@ -81,7 +82,7 @@ public class LocationService {
             // Kiem tra ma kho hang moi co bi trung voi kho hang khac khong
             // Loai tru ban than kho hang minh
             if (!req.code().equals(location.getCode()) && locationRepository.existsByCode(req.code())) {
-                throw new BusinessException("Location code already exists");
+                throw new DuplicateResourceException("Location code already exists");
             }
             location.setCode(req.code());
         }

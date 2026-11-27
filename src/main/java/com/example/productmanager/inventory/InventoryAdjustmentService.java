@@ -1,6 +1,7 @@
 package com.example.productmanager.inventory;
 
 import com.example.productmanager.common.exception.BusinessException;
+import com.example.productmanager.common.exception.DuplicateResourceException;
 import com.example.productmanager.common.exception.ResourceNotFoundException;
 import com.example.productmanager.inventory.dto.InventoryAdjustmentRequest;
 import com.example.productmanager.inventory.dto.InventoryAdjustmentResponse;
@@ -28,7 +29,7 @@ public class InventoryAdjustmentService {
     public InventoryAdjustment create(InventoryAdjustmentRequest req) {
         // Kiem tra trung request ID
         if (inventoryAdjustmentRepository.existsByRequestId(req.requestId())) {
-            throw new BusinessException("Request ID already exists");
+            throw new DuplicateResourceException("Request ID already exists");
         }
 
         InventoryItem inventoryItem = inventoryItemRepository.findById(req.inventoryItemId())
@@ -44,6 +45,11 @@ public class InventoryAdjustmentService {
         // Khong cho xuat/nhap neu kho khong hoat dong
         if (LocationStatus.INACTIVE.equals(location.getStatus())) {
             throw new BusinessException("Cannot export/import product at inactive location");
+        }
+
+        // Khong cho xuat/nhap kho neu khong duoc tracked
+        if (!inventoryItem.isTracked()) {
+            throw new BusinessException("Cannot export/import untracked product");
         }
 
         // Tim inventory level tuong ung va thay doi

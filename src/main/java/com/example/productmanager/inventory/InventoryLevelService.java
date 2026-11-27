@@ -1,6 +1,7 @@
 package com.example.productmanager.inventory;
 
 import com.example.productmanager.common.exception.BusinessException;
+import com.example.productmanager.common.exception.DuplicateResourceException;
 import com.example.productmanager.common.exception.ResourceNotFoundException;
 import com.example.productmanager.inventory.dto.InventoryLevelResponse;
 import com.example.productmanager.location.Location;
@@ -27,7 +28,7 @@ public class InventoryLevelService {
     ) {
         // Kiem tra trung: chi co 1 inventory level cho 1 cap inventory item va location
         if (inventoryLevelRepository.existsByInventoryItemAndLocation(inventoryItem, location)) {
-            throw new BusinessException("Inventory already exists");
+            throw new DuplicateResourceException("Inventory already exists");
         }
 
         InventoryLevel inventoryLevel = new InventoryLevel();
@@ -60,6 +61,11 @@ public class InventoryLevelService {
         // Khong cho ket noi neu kho khong hoat dong
         if (LocationStatus.INACTIVE.equals(location.getStatus())) {
             throw new BusinessException("Cannot connect product to inactive location");
+        }
+
+        // Khong cho ket noi kho neu khong duoc tracked
+        if (!inventoryItem.isTracked()) {
+            throw new BusinessException("Cannot connect untracked product");
         }
 
         return create(location, inventoryItem);
@@ -98,7 +104,7 @@ public class InventoryLevelService {
     public InventoryLevel adjust(InventoryLevel inventoryLevel, Long delta) {
         // Su dung ham addExact ket hop try/catch de bat loi tran so, khong dung toan tu + co ban
         try {
-            Long newOnHand = inventoryLevel.getOnHand() + delta;
+            Long newOnHand = Math.addExact(inventoryLevel.getOnHand(), delta);
             Long newAvailable = Math.addExact(inventoryLevel.getAvailable(), delta);
 
             if (newAvailable < 0) {

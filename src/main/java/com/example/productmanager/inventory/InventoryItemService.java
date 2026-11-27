@@ -2,6 +2,7 @@ package com.example.productmanager.inventory;
 
 import com.example.productmanager.common.exception.ResourceNotFoundException;
 import com.example.productmanager.inventory.dto.InventoryItemResponse;
+import com.example.productmanager.inventory.dto.UpdateInventoryItemRequest;
 import com.example.productmanager.location.Location;
 import com.example.productmanager.location.LocationRepository;
 import com.example.productmanager.product.Variant;
@@ -63,5 +64,22 @@ public class InventoryItemService {
         InventoryItem res = inventoryItemRepository.findByVariantId(variantId)
                 .orElseThrow(() -> new ResourceNotFoundException("No Inventory Item found"));
         return new InventoryItemResponse(res);
+    }
+
+    @Transactional()
+    public InventoryItemResponse update(Long id, UpdateInventoryItemRequest req) {
+        InventoryItem inventoryItem = inventoryItemRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Inventory Item not found"));
+
+        if (req.tracked() != null && !req.tracked().equals(inventoryItem.isTracked())) {
+            inventoryItem.setTracked(req.tracked());
+        }
+
+        if (req.costPrice() != null) {
+            inventoryItem.setCostPrice(req.costPrice());
+        }
+
+        inventoryItemRepository.save(inventoryItem);
+        return new InventoryItemResponse(inventoryItem);
     }
 }

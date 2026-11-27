@@ -1,6 +1,6 @@
 package com.example.productmanager.product;
 
-import com.example.productmanager.common.exception.BusinessException;
+import com.example.productmanager.common.exception.DuplicateResourceException;
 import com.example.productmanager.common.exception.ResourceNotFoundException;
 import com.example.productmanager.product.dto.*;
 import lombok.RequiredArgsConstructor;
@@ -55,14 +55,14 @@ public class ProductService {
         Set<String> skuSet = new HashSet<>();
         for (CreateVariantRequest variant : variants) {
             if (!skuSet.add(variant.sku())) {
-                throw new BusinessException("SKU duplicated in variant list");
+                throw new DuplicateResourceException("SKU duplicated in variant list");
             }
         }
         List<Variant> existing = variantRepository.findBySkuIn(
                 variants.stream().map(CreateVariantRequest::sku).toList()
         );
         if (!existing.isEmpty()) {
-            throw new BusinessException("One or more SKUs already exist");
+            throw new DuplicateResourceException("One or more SKUs already exist");
         }
         return true;
     }

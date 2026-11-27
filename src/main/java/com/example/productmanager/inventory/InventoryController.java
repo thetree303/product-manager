@@ -1,9 +1,6 @@
 package com.example.productmanager.inventory;
 
-import com.example.productmanager.inventory.dto.InventoryAdjustmentRequest;
-import com.example.productmanager.inventory.dto.InventoryAdjustmentResponse;
-import com.example.productmanager.inventory.dto.InventoryConnectRequest;
-import com.example.productmanager.inventory.dto.InventoryLevelResponse;
+import com.example.productmanager.inventory.dto.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -55,10 +52,19 @@ public class InventoryController {
     // Xuat/nhap kho
     @PostMapping("/adjust")
     public ResponseEntity<InventoryAdjustmentResponse> adjustInventoryItem(
-            @RequestBody @Valid InventoryAdjustmentRequest req
+            @Valid @RequestBody InventoryAdjustmentRequest req
     ) {
         InventoryAdjustment res = inventoryAdjustmentService.create(req);
         return ResponseEntity.status(HttpStatus.CREATED).body(new InventoryAdjustmentResponse(res));
     }
 
+    // Cap nhat item
+    @PatchMapping("/items/{id}")
+    public ResponseEntity<InventoryItemResponse> updateInventoryItem(
+            @PathVariable Long id,
+            @Valid @RequestBody UpdateInventoryItemRequest req
+    ) {
+        InventoryItemResponse res = inventoryItemService.update(id, req);
+        return ResponseEntity.status(HttpStatus.OK).body(res);
+    }
 }

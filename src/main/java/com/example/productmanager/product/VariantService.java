@@ -1,6 +1,7 @@
 package com.example.productmanager.product;
 
 import com.example.productmanager.common.exception.BusinessException;
+import com.example.productmanager.common.exception.DuplicateResourceException;
 import com.example.productmanager.common.exception.ResourceNotFoundException;
 import com.example.productmanager.inventory.InventoryItem;
 import com.example.productmanager.inventory.InventoryItemService;
@@ -33,7 +34,7 @@ public class VariantService {
 
         // Chan trung sku
         if (Boolean.TRUE.equals(variantRepository.existsBySku(req.sku()))) {
-            throw new BusinessException("SKU already exists");
+            throw new DuplicateResourceException("SKU already exists");
         }
 
         // Tao moi variant
@@ -89,7 +90,7 @@ public class VariantService {
         if (req.sku() != null) {
             // Kiem tra trung sku
             if (!variant.getSku().equals(req.sku()) && variantRepository.existsBySku(req.sku())) {
-                throw new BusinessException("SKU already exists");
+                throw new DuplicateResourceException("SKU already exists");
             }
             variant.setSku(req.sku());
         }
