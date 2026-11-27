@@ -2,7 +2,7 @@ package com.example.productmanager.product;
 
 import com.example.productmanager.inventory.InventoryItem;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -47,7 +47,7 @@ public class Variant {
     private String description;
 
     @Column(name = "price", nullable = false, precision = 19, scale = 2)
-    @DecimalMin(value = "0.01", message = "Price must be greater than 0")
+    @PositiveOrZero(message = "Price must not be negative")
     private BigDecimal price;
 
     @Column(name = "created_at", nullable = false, updatable = false)

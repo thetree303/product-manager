@@ -9,5 +9,12 @@ public interface InventoryAdjustmentRepository extends JpaRepository<InventoryAd
     @EntityGraph(attributePaths = {"inventoryItem", "location", "inventoryItem.variant"})
     Page<InventoryAdjustment> findAll(Pageable pageable);
 
+    @EntityGraph(attributePaths = {"inventoryItem", "location", "inventoryItem.variant"})
+    Page<InventoryAdjustment> findByInventoryItemIdAndLocationId(
+            Long inventoryId,
+            Long locationId,
+            Pageable pageable
+    );
+
     Boolean existsByRequestId(String requestId);
 }

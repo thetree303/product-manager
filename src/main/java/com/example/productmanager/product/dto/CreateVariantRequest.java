@@ -1,8 +1,8 @@
 package com.example.productmanager.product.dto;
 
-import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
@@ -19,12 +19,12 @@ public record CreateVariantRequest(
         String description,
 
         @NotNull(message = "Price is not empty")
-        @DecimalMin(value = "0.01", message = "Price must be greater than 0")
+        @PositiveOrZero(message = "Price must not be negative")
         BigDecimal price,
 
         // Cac thuoc tinh cho inventory item
         @NotNull(message = "Cost Price is not empty")
-        @DecimalMin(value = "0.01", message = "Cost Price must be greater than 0")
+        @PositiveOrZero(message = "Cost Price must not be negative")
         BigDecimal costPrice,
 
         Boolean tracked

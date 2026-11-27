@@ -3,6 +3,8 @@ package com.example.productmanager.inventory.dto;
 import com.example.productmanager.inventory.InventoryAdjustment;
 import com.example.productmanager.inventory.InventoryAdjustmentReason;
 
+import java.time.Instant;
+
 public record InventoryAdjustmentResponse(
         Long id,
         Long inventoryItemId,
@@ -16,7 +18,8 @@ public record InventoryAdjustmentResponse(
         Long delta,
         Long onHandAfter,
         InventoryAdjustmentReason reason,
-        String note
+        String note,
+        Instant createdAt
 ) {
     public InventoryAdjustmentResponse(InventoryAdjustment adjustment) {
         this(
@@ -32,7 +35,8 @@ public record InventoryAdjustmentResponse(
                 adjustment.getDelta(),
                 adjustment.getOnHandAfter(),
                 adjustment.getReason(),
-                adjustment.getNote()
+                adjustment.getNote(),
+                adjustment.getCreatedAt()
         );
     }
 }

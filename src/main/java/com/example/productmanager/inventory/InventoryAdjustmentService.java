@@ -72,9 +72,15 @@ public class InventoryAdjustmentService {
     }
 
 
-    // Lay toan bo ban ghi adjustment
+    // Lay toan bo ban ghi adjustment cua mot inventory item tai location cu the
     @Transactional(readOnly = true)
-    public Page<InventoryAdjustmentResponse> findAll(Pageable pageable) {
-        return inventoryAdjustmentRepository.findAll(pageable).map(InventoryAdjustmentResponse::new);
+    public Page<InventoryAdjustmentResponse> findAll(
+            Long inventoryItemId,
+            Long locationId,
+            Pageable pageable
+    ) {
+        return inventoryAdjustmentRepository
+                .findByInventoryItemIdAndLocationId(inventoryItemId, locationId, pageable)
+                .map(InventoryAdjustmentResponse::new);
     }
 }

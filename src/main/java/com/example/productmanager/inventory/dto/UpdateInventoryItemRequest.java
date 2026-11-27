@@ -1,13 +1,13 @@
 package com.example.productmanager.inventory.dto;
 
-import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.PositiveOrZero;
 
 import java.math.BigDecimal;
 
 public record UpdateInventoryItemRequest(
         Boolean tracked,
 
-        @DecimalMin(value = "0.01", message = "Cost Price must be greater than 0")
+        @PositiveOrZero(message = "Cost Price must not be negative")
         BigDecimal costPrice
 ) {
 }
