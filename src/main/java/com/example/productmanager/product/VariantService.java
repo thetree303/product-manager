@@ -2,6 +2,7 @@ package com.example.productmanager.product;
 
 import com.example.productmanager.common.exception.BusinessException;
 import com.example.productmanager.common.exception.ResourceNotFoundException;
+import com.example.productmanager.inventory.InventoryItem;
 import com.example.productmanager.inventory.InventoryItemService;
 import com.example.productmanager.product.dto.CreateVariantRequest;
 import com.example.productmanager.product.dto.UpdateVariantRequest;
@@ -44,18 +45,19 @@ public class VariantService {
         newVariant.setProduct(product);     // Gan variant voi product
 
         // Luu variant truoc de lay ID
-        Variant saved = variantRepository.save(newVariant);
+        Variant savedVariant = variantRepository.save(newVariant);
 
         // ===== Khoi tao inventory item, gan 1-1 di kem ======
         // Mac dinh = true neu khong co danh dau
         boolean tracked = !Boolean.FALSE.equals(req.tracked());
-        inventoryItemService.create(
-                newVariant,
+        InventoryItem savedInventoryItem = inventoryItemService.create(
+                savedVariant,
                 tracked,
                 req.costPrice()
         );
+        savedVariant.setInventoryItem(savedInventoryItem);
 
-        return saved;
+        return savedVariant;
     }
 
     @Transactional(readOnly = true)

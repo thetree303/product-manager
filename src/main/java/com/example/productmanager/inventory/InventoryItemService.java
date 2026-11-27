@@ -23,7 +23,7 @@ public class InventoryItemService {
 
     @Transactional
     // Chi duoc goi boi variant service, khong tao api
-    public InventoryItemResponse create(
+    public InventoryItem create(
             Variant variant,
             boolean tracked,
             BigDecimal costPrice
@@ -41,7 +41,7 @@ public class InventoryItemService {
             inventoryLevelService.create(defaultLocation.get(), savedInventoryItem);
         }
 
-        return new InventoryItemResponse(inventoryItem);
+        return savedInventoryItem;
     }
 
     @Transactional(readOnly = true)
