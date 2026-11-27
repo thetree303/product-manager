@@ -33,9 +33,10 @@ public class InventoryLevelService {
         InventoryLevel inventoryLevel = new InventoryLevel();
         inventoryLevel.setLocation(location);
         inventoryLevel.setInventoryItem(inventoryItem);
-        // Khoi tao mac dinh onHand va available la 0. Nguoi dung se cap nhat sau
-        inventoryLevel.setOnHand(0);
-        inventoryLevel.setAvailable(0);
+        // Khoi tao mac dinh onHand va available la 0.
+        // Nguoi dung se thay doi qua thao tac xuat/nhap kho sau
+        inventoryLevel.setOnHand(0L);
+        inventoryLevel.setAvailable(0L);
 
         return inventoryLevelRepository.save(inventoryLevel);
     }
@@ -94,12 +95,12 @@ public class InventoryLevelService {
     // Hien tai tam thoi dieu chinh ca available va onHand
     // Se dieu chinh sau de phu hop voi nghiep vu thuc te
     @Transactional
-    public InventoryLevel adjust(InventoryLevel inventoryLevel, Integer delta) {
-        if (inventoryLevel.getAvailable() + delta < 0) {
+    public InventoryLevel adjust(InventoryLevel inventoryLevel, Long delta) {
+        if (Math.addExact(inventoryLevel.getAvailable(), delta) < 0) {
             throw new BusinessException("Insufficient items. Cannot export");
         }
-        inventoryLevel.setOnHand(inventoryLevel.getOnHand() + delta);
-        inventoryLevel.setAvailable(inventoryLevel.getAvailable() + delta);
+        inventoryLevel.setOnHand(Math.addExact(inventoryLevel.getOnHand(), delta));
+        inventoryLevel.setAvailable(Math.addExact(inventoryLevel.getAvailable(), delta));
         return inventoryLevelRepository.save(inventoryLevel);
     }
 }

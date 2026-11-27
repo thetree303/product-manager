@@ -22,7 +22,13 @@ import java.time.Instant;
         uniqueConstraints = {
                 @UniqueConstraint(
                         name = "uk_inventory_item_location",
-                        columnNames = {"location_id", "inventory_item_id"}
+                        columnNames = {"inventory_item_id", "location_id"}
+                )
+        },
+        indexes = {
+                @Index(
+                        name = "idx_location_id",
+                        columnList = "location_id"
                 )
         }
 )
@@ -57,11 +63,11 @@ public class InventoryLevel {
 
     @Column(name = "on_hand", nullable = false)
     @Min(value = 0)
-    private Integer onHand = 0;
+    private Long onHand = 0L;
 
     @Column(name = "available", nullable = false)
     @Min(value = 0)
-    private Integer available = 0;
+    private Long available = 0L;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp

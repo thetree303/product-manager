@@ -50,7 +50,7 @@ public class InventoryAdjustmentService {
         InventoryLevel inventoryLevel = inventoryLevelRepository
                 .findByInventoryItemAndLocation(inventoryItem, location)
                 .orElseThrow(() -> new ResourceNotFoundException("Inventory Level not found"));
-        Integer onHandAfter = inventoryLevelService.adjust(inventoryLevel, req.delta()).getOnHand();
+        Long onHandAfter = inventoryLevelService.adjust(inventoryLevel, req.delta()).getOnHand();
 
         // Luu ban ghi adjustment
         InventoryAdjustment inventoryAdjustment = new InventoryAdjustment(

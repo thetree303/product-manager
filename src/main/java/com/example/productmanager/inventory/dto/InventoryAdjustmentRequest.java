@@ -17,7 +17,7 @@ public record InventoryAdjustmentRequest(
         String requestId,
 
         @NotNull(message = "Delta cannot be empty")
-        Integer delta,
+        Long delta,
 
         @NotNull(message = "Reason cannot be empty")
         InventoryAdjustmentReason reason,

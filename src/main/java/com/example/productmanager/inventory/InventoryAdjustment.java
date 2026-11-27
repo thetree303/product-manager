@@ -54,10 +54,10 @@ public class InventoryAdjustment {
     private String requestId;
 
     @Column(name = "delta", nullable = false)
-    private Integer delta;
+    private Long delta;
 
     @Column(name = "on_hand_after", nullable = false)
-    private Integer onHandAfter;
+    private Long onHandAfter;
 
     @Column(name = "reason", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -75,8 +75,8 @@ public class InventoryAdjustment {
             InventoryItem inventoryItem,
             Location location,
             String requestId,
-            Integer delta,
-            Integer onHandAfter,
+            Long delta,
+            Long onHandAfter,
             InventoryAdjustmentReason reason,
             String note
     ) {

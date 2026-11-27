@@ -13,8 +13,8 @@ public record InventoryAdjustmentResponse(
         String locationCode,
         String locationName,
         String requestId,
-        Integer delta,
-        Integer onHandAfter,
+        Long delta,
+        Long onHandAfter,
         InventoryAdjustmentReason reason,
         String note
 ) {

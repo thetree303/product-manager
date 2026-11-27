@@ -12,8 +12,8 @@ public record InventoryLevelResponse(
         Long locationId,
         String locationCode,
         String locationName,
-        Integer onHand,
-        Integer available,
+        Long onHand,
+        Long available,
         Instant createdAt,
         Instant updatedAt,
         Long version
