@@ -132,26 +132,6 @@ public class LocationService {
         return new LocationResponse(newDefault);
     }
 
-    // Xoa kho hang
-    @Transactional
-    public LocationResponse deleteById(Long id) {
-        Location location = locationRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Location not found"));
-
-        // Neu la kho hang mac dinh, khong cho xoa
-        if (Boolean.TRUE.equals(location.getDefaultLocation())) {
-            throw new BusinessException("Cannot delete default location");
-        }
-
-        // Neu la kho hang dang hoat dong (ACTIVE), khong cho xoa
-        if (LocationStatus.ACTIVE.equals(location.getStatus())) {
-            throw new BusinessException("Cannot delete active location");
-        }
-
-        locationRepository.delete(location);
-        return new LocationResponse(location);
-    }
-
     // Helper uncheck kho hang mac dinh hien tai
     private void unsetCurrentDefaultLocation() {
         locationRepository.findByDefaultLocationTrue()

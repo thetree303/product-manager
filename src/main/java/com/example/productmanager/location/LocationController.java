@@ -59,10 +59,4 @@ public class LocationController {
         LocationResponse res = locationService.changeDefaultLocation(id);
         return ResponseEntity.status(HttpStatus.OK).body(res);
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<LocationResponse> delete(@PathVariable Long id) {
-        LocationResponse res = locationService.deleteById(id);
-        return ResponseEntity.status(HttpStatus.OK).body(res);
-    }
 }
